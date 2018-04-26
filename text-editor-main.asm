@@ -111,8 +111,11 @@ moveLeft:
     jmp  prntCrs
 
 ;UP.
-moveUp: 
-    sub  curr_line, 80   ; update current line.
+moveUp:    
+    mov si , curr_line
+    sub si, 80
+    mov curr_line , si
+    ;sub  curr_line, 80   ; update current line.
     mov  dl, posX
     mov  dh, posY
     dec  dh              ; posY -- 
@@ -129,8 +132,14 @@ moveDown:
     jmp  prntCrs 
 
 ;ENTER.
-moveNewLine:
-    add curr_line, 80
+moveNewLine:         
+    mov si , curr_line
+    add si , curr_char
+    mov [si] , 0ah
+    mov [si+1] , 0dh
+    sub si , curr_char
+    lea si, si+1
+    mov curr_line,si
     mov posX, 0
     mov dl, posX
     mov dh, posY
